@@ -141,7 +141,11 @@ class KMeans:
     device = X.device
     start_time = time()
     if centroids is None:
-      self.centroids = init_methods[self.init_method](X, self.n_clusters, self.minibatch)
+      if self.minibatch is None:
+        batch_size = -1
+      else:
+        batch_size = self.minibatch
+      self.centroids = init_methods[self.init_method](X, self.n_clusters, batch_size)
     else:
       self.centroids = centroids
     if self.minibatch is not None:
